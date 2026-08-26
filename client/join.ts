@@ -33,7 +33,7 @@ export class Join {
     this.client.socket.on('joined', (id: string) => {
       this.client.id = id
       this.div.style.display = 'none'
-      this.client.instructions.div.style.display = 'flex'
+      // this.client.instructions.div.style.display = 'flex'
       console.log('joined', id)
     })
   }
