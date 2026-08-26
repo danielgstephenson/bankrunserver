@@ -15,3 +15,10 @@ body {
   padding: 2vmin;
   user-select: none;
 }
+
+button {
+  font-size: 10vmin;
+  border-radius: 2vmin;
+  padding: 2vmin;
+  cursor: pointer;
+}

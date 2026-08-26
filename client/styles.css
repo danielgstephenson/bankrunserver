@@ -50,6 +50,18 @@ body {
   height: 100vmin;
 }
 
+#disconnectedDiv {
+  display: none;
+  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: white;
+  width: 100vw;
+  height: 100vh;
+}
+
 .textBox {
   display: block;
   font-size: 10vmin;

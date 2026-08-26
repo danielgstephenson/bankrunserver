@@ -14,6 +14,11 @@ export class Join {
     this.div = el(document.body, 'div', { id: 'joinDiv' })
     this.input = el(this.div, 'input', { id: 'idInput' })
     this.input.type = 'text'
+    this.input.focus()
+    this.input.addEventListener('keydown', event => {
+      if (event.key !== 'Enter') return
+      this.onButtonClick()
+    })
     this.button = el(this.div, 'button', { id: 'joinButton' })
     this.button.textContent = 'Join'
     this.button.addEventListener('click', _ => this.onButtonClick())
@@ -29,6 +34,7 @@ export class Join {
       this.client.id = id
       this.div.style.display = 'none'
       this.client.instructions.div.style.display = 'flex'
+      console.log('joined', id)
     })
   }
 

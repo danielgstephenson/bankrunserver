@@ -6,6 +6,7 @@ import { getDateString } from './dateString.js'
 import { Participant } from './participant.js'
 import { range } from './math.js'
 import { once } from 'node:events'
+import { summarize } from './summary.js'
 
 export class Session {
   token = `${Math.random()}`
@@ -13,6 +14,7 @@ export class Session {
   io: IOServer
   dateString: string
   participants = new Map<string, Participant>()
+  state = 'instructions'
 
   constructor() {
     this.app = express()
@@ -20,6 +22,7 @@ export class Session {
     this.dateString = getDateString()
     range(1, 10).forEach(i => new Participant(this, `${i}`))
     this.setupIo()
+    setInterval(() => this.sendUpdates(), 100)
   }
 
   setupIo(): void {
@@ -31,10 +34,24 @@ export class Session {
           socket.emit('invalid id')
           return
         }
+        if (participant.socket != null) {
+          participant.socket.emit('disconnected')
+          participant.socket.disconnect()
+        }
         participant.socket = socket
         socket.emit('joined', id)
       })
+      socket.on('begin', _ => {
+        console.log('begin')
+        if (this.state !== 'instructions') return
+        this.state = 'game'
+      })
     })
+  }
+
+  sendUpdates(): void {
+    const summary = summarize(this)
+    this.io.emit('summary', summary)
   }
 
   async listen(port: number): Promise<void> {
