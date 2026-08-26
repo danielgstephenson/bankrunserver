@@ -1,34 +1,28 @@
-import type { Summary } from '../../shared/summary.js'
-import { el } from '../builder.js'
+import type { SessionSummary } from '../../shared/types.js'
+import { Controls } from './controls.js'
+import { Table } from './table.js'
 import { io } from '/socket.io/socket.io.esm.min.js'
 
 export class Manager {
   socket = io()
   token = ''
+  table = new Table(this)
+  controls = new Controls(this)
+  summary?: SessionSummary
 
   constructor() {
     this.setupSocket()
-    el(document.body, 'div', {
-      className: 'textBox',
-      textContent: 'Manager',
-    })
-    const beginButton = el(document.body, 'button', {
-      id: 'beginButton',
-      textContent: 'Begin',
-    })
-    beginButton.addEventListener('click', _ => {
-      console.log('begin')
-      this.socket.emit('begin')
-    })
   }
 
   setupSocket(): void {
     this.socket.on('connect', () => {
       console.log('connected', this.socket.id)
     })
-    this.socket.on('summary', (summary: Summary) => {
+    this.socket.on('summary', (summary: SessionSummary) => {
       console.log('state', summary.state)
       this.checkToken(summary.token)
+      this.summary = summary
+      this.table.update(summary)
     })
   }
 

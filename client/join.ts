@@ -33,9 +33,9 @@ export class Join {
     this.client.socket.on('joined', (id: string) => {
       this.client.id = id
       this.div.style.display = 'none'
-      // this.client.instructions.div.style.display = 'flex'
       console.log('joined', id)
     })
+    this.checkURLParams()
   }
 
   onButtonClick(): void {
@@ -48,7 +48,11 @@ export class Join {
     this.client.socket.emit('join', id)
   }
 
-  setupInput(): void {}
+  checkURLParams(): void {
+    const id = new URLSearchParams(location.search).get('id')
+    if (id == null) return
+    this.client.socket.emit('join', id)
+  }
 
   error(msg: string): void {
     this.errorDiv.textContent = msg

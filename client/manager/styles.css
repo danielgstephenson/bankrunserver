@@ -1,24 +1,55 @@
 body {
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1vmin;
+  margin: 0;
+}
+
+#controlsDiv {
+  display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   padding: 0;
-  margin: 0;
+  margin: 1vmin;
+}
+
+#tableGrid {
+  font-size: 3vmin;
+  margin: 1vmin;
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  border: 1px solid black;
+  background-color: white;
+}
+
+.gridCell {
+  padding: 0.5vmin;
+  border-bottom: 1px solid black;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.gridCell.header {
+  font-weight: bold;
+  border-bottom: 2px solid black;
 }
 
 .textBox {
   display: block;
-  font-size: 10vmin;
+  font-size: 3vmin;
   text-align: center;
-  width: 100vmin;
-  padding: 2vmin;
+  padding: 0vmin;
   user-select: none;
 }
 
 button {
-  font-size: 10vmin;
-  border-radius: 2vmin;
-  padding: 2vmin;
+  font-size: 3vmin;
+  border-radius: 1vmin;
+  padding: 0.5vmin;
   cursor: pointer;
 }

@@ -6,7 +6,8 @@ import { getDateString } from './dateString.js'
 import { Participant } from './participant.js'
 import { range } from './math.js'
 import { once } from 'node:events'
-import { summarize } from './summary.js'
+import type { SessionSummary } from '../shared/types.js'
+import { treatment1 } from './treatment.js'
 
 export class Session {
   token = `${Math.random()}`
@@ -15,6 +16,9 @@ export class Session {
   dateString: string
   participants = new Map<string, Participant>()
   state = 'instructions'
+  treatment = treatment1
+  period = 1
+  stage = 1
 
   constructor() {
     this.app = express()
@@ -39,6 +43,7 @@ export class Session {
           participant.socket.disconnect()
         }
         participant.socket = socket
+        console.log(`joined: ${id}`)
         socket.emit('joined', id)
       })
       socket.on('begin', _ => {
@@ -50,8 +55,21 @@ export class Session {
   }
 
   sendUpdates(): void {
-    const summary = summarize(this)
+    const summary = this.summarize()
     this.io.emit('summary', summary)
+  }
+
+  summarize(): SessionSummary {
+    const participants = [...this.participants.values()]
+    const summary = {
+      token: this.token,
+      state: this.state,
+      treatment: this.treatment,
+      period: this.period,
+      stage: this.stage,
+      participants: participants.map(p => p.summarize()),
+    }
+    return summary
   }
 
   async listen(port: number): Promise<void> {

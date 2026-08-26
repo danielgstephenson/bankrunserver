@@ -1,4 +1,5 @@
-import type { Treatment } from './treatment.js'
+import type { Treatment } from "../shared/types.js"
+
 
 export function getPayoff(
   action: number,

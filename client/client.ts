@@ -2,7 +2,7 @@ import { Disconnected } from './disconnected.js'
 import { Instructions } from './instructions.js'
 import { Join } from './join.js'
 import { io } from '/socket.io/socket.io.esm.min.js'
-import type { Summary } from '../shared/summary.js'
+import type { SessionSummary } from '../shared/types.js'
 
 export class Client {
   socket = io()
@@ -20,7 +20,7 @@ export class Client {
       console.log('disconnected', this.socket.id)
       this.disconnected.div.style.display = 'flex'
     })
-    this.socket.on('summary', (summary: Summary) => {
+    this.socket.on('summary', (summary: SessionSummary) => {
       console.log('state', summary.state)
       this.checkToken(summary.token)
     })

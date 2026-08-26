@@ -1,4 +1,4 @@
-import type { Summary } from '../shared/summary.js'
+import type { SessionSummary } from '../shared/types.js'
 import { el } from './builder.js'
 import type { Client } from './client.js'
 
@@ -17,7 +17,7 @@ export class Instructions {
       className: 'textBox',
       textContent: 'Quiz',
     })
-    this.client.socket.on('summary', (summary: Summary) => {
+    this.client.socket.on('summary', (summary: SessionSummary) => {
       const show = this.client.id !== '' && summary.state === 'instructions'
       this.div.style.display = show ? 'flex' : 'none'
     })
