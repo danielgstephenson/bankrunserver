@@ -1,0 +1,12 @@
+appId: edu.dgstephenson.bankrun
+productName: BankRun
+asar: false
+directories:
+  output: release
+  buildResources: build
+files:
+  - dist/**
+  - public/**
+  - package.json
+win:
+  target: dir
