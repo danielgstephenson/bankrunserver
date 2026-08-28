@@ -12,7 +12,7 @@ export function makeServer(app: Express): IOServer {
   const io = new Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, object>(httpServer, {
     connectionStateRecovery: {},
   })
-  const publicDir = join(import.meta.dirname, '..', 'public')
+  const publicDir = join(import.meta.dirname, '..', '..', 'public')
   app.use(express.static(publicDir))
   // const port = 3000
   // httpServer.listen(port, () => console.log(`listening on http://localhost:${port}`))

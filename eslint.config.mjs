@@ -5,7 +5,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist/**']),
+  globalIgnores(['dist/**', 'public/**']),
   {
     files: ['src/**/*.ts', 'client/**/*.ts'],
     extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked],
@@ -24,13 +24,6 @@ export default defineConfig([
       ],
       '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: true }],
       '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
-    },
-  },
-  {
-    files: ['public/**/*.js'],
-    extends: [js.configs.recommended],
-    languageOptions: {
-      globals: { ...globals.browser, io: 'readonly' },
     },
   },
   {

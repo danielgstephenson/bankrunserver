@@ -2,7 +2,7 @@ import { Disconnected } from './disconnected.js'
 import { Instructions } from './instructions.js'
 import { Join } from './join.js'
 import { io } from '/socket.io/socket.io.esm.min.js'
-import type { SessionSummary } from '../shared/types.js'
+import type { SessionSummary } from './shared/types.js'
 
 export class Client {
   socket = io()

@@ -1,11 +1,10 @@
-
-export function formatTwo (x: number): string {
+export function formatTwo(x: number): string {
   let y = x.toFixed(0)
   if (x < 10) y = '0' + y
   return y
 }
 
-export function getDateString (): string {
+export function getDateString(): string {
   const d = new Date()
   const year = d.getFullYear()
   const month = formatTwo(d.getMonth() + 1)

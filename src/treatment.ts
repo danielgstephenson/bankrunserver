@@ -1,4 +1,4 @@
-import type { Treatment } from '../shared/types.js'
+import type { Treatment } from '../client/shared/types.js'
 
 const baseline: Treatment = {
   n: 10,

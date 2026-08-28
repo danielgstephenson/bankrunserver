@@ -5,7 +5,7 @@
     "lib": ["es2023"],
     "types": ["node"],
 
-    "rootDir": "src",
+    "rootDir": ".",
     "outDir": "dist",
     "sourceMap": true,
 
@@ -18,5 +18,5 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src"]
+  "include": ["src", "client/shared"]
 }

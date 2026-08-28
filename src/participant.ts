@@ -1,4 +1,4 @@
-import type { ParticipantSummary } from '../shared/types.js'
+import type { ParticipantSummary } from '../client/shared/types.js'
 import type { IOSocket } from './server.js'
 import type { Session } from './session.js'
 
@@ -6,6 +6,7 @@ export class Participant {
   session: Session
   socket?: IOSocket
   id: string
+  game = 0
   hold = true
   inform = true
   action = 3
@@ -19,9 +20,11 @@ export class Participant {
   summarize(): ParticipantSummary {
     return {
       id: this.id,
+      game: this.game,
       inform: this.inform,
       hold: this.hold,
       action: this.action,
+      joined: this.socket != null,
     }
   }
 }

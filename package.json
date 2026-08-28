@@ -6,13 +6,13 @@
   "license": "",
   "author": "",
   "type": "module",
-  "main": "dist/electron/main.js",
+  "main": "dist/src/electron/main.js",
   "scripts": {
     "app": "npm run build && electron .",
     "release": "npm run build && electron-builder --win dir",
     "build": "node scripts/copy.mjs && tsc -p client && tsc",
-    "dev": "npm run build && node dist/index.js",
-    "start": "node dist/index.js",
+    "dev": "npm run build && node dist/src/index.js",
+    "start": "node dist/src/index.js",
     "typecheck": "tsc --noEmit && tsc -p client --noEmit",
     "lint": "eslint ."
   },

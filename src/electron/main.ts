@@ -25,10 +25,10 @@ void app.whenReady().then(async () => {
     return
   }
 
-  const win = new BrowserWindow({ 
-    width: 1200, 
+  const win = new BrowserWindow({
+    width: 1200,
     height: 800,
-    icon: join(import.meta.dirname, '..', '..', 'public', 'circle.ico')
+    icon: join(import.meta.dirname, '..', '..', 'public', 'circle.ico'),
   })
   await win.loadURL(`http://localhost:${PORT}/manager/`)
 })

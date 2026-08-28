@@ -20,7 +20,7 @@ body {
   font-size: 3vmin;
   margin: 1vmin;
   display: grid;
-  grid-template-columns: max-content max-content max-content;
+  grid-template-columns: repeat(4, max-content);
   border: 1px solid black;
   background-color: white;
 }

@@ -4,27 +4,30 @@ import { makeServer } from './server.js'
 import { type IOServer } from './server.js'
 import { getDateString } from './dateString.js'
 import { Participant } from './participant.js'
-import { range } from './math.js'
+import { range, shuffle } from '../client/shared/math.js'
 import { once } from 'node:events'
-import type { SessionSummary } from '../shared/types.js'
+import type { SessionSummary } from '../client/shared/types.js'
 import { treatment1 } from './treatment.js'
+import { Game } from './game.js'
+import { gameCount, participantCount } from './parameters.js'
 
 export class Session {
   token = `${Math.random()}`
   app: Express
   io: IOServer
-  dateString: string
-  participants = new Map<string, Participant>()
-  state = 'instructions'
+  dateString = getDateString()
   treatment = treatment1
+  participants = new Map<string, Participant>()
+  games: Game[] = []
+  state = 'instructions'
   period = 1
   stage = 1
 
   constructor() {
     this.app = express()
     this.io = makeServer(this.app)
-    this.dateString = getDateString()
-    range(1, 10).forEach(i => new Participant(this, `${i}`))
+    range(1, participantCount).forEach(i => new Participant(this, `${i}`))
+    range(gameCount).forEach(_ => new Game(this))
     this.setupIo()
     setInterval(() => this.sendUpdates(), 100)
   }
@@ -54,6 +57,19 @@ export class Session {
     })
   }
 
+  setupGames(): void {
+    const participants = shuffle([...this.participants.values()])
+    const games = [...this.games.values()]
+    for (const game of games) {
+      for (const _ of range(this.treatment.n)) {
+        const player = participants.pop()
+        if (player == null) return
+        game.players.push(player)
+      }
+    }
+    games.forEach(game => game.setup())
+  }
+
   sendUpdates(): void {
     const summary = this.summarize()
     this.io.emit('summary', summary)
@@ -61,15 +77,15 @@ export class Session {
 
   summarize(): SessionSummary {
     const participants = [...this.participants.values()]
-    const summary = {
+    return {
       token: this.token,
       state: this.state,
       treatment: this.treatment,
       period: this.period,
       stage: this.stage,
       participants: participants.map(p => p.summarize()),
+      games: this.games.map(game => game.summarize()),
     }
-    return summary
   }
 
   async listen(port: number): Promise<void> {

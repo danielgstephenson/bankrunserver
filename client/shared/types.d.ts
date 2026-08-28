@@ -10,9 +10,11 @@ export type Treatment = {
 
 export interface ParticipantSummary {
   id: string
+  game: number
   hold: boolean
   action: number
   inform: boolean
+  joined: boolean
 }
 
 export interface SessionSummary {
@@ -22,4 +24,13 @@ export interface SessionSummary {
   period: number
   stage: number
   participants: ParticipantSummary[]
+  games: GameSummary[]
+}
+
+export interface GameSummary {
+  id: number
+  quality: string
+  period: number
+  stage: number
+  payVec: number[]
 }

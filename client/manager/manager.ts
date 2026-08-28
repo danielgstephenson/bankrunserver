@@ -1,4 +1,4 @@
-import type { SessionSummary } from '../../shared/types.js'
+import type { SessionSummary } from '../shared/types.js'
 import { Controls } from './controls.js'
 import { Table } from './table.js'
 import { io } from '/socket.io/socket.io.esm.min.js'

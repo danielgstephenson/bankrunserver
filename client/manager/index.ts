@@ -1,4 +1,3 @@
-import { Manager } from "./manager.js";
-
+import { Manager } from './manager.js'
 
 new Manager()
