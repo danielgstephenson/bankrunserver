@@ -21,6 +21,8 @@ export class Game {
     this.setQuality()
     this.players.forEach(player => {
       player.game = this.id
+      player.ready = false
+      player.action = 3
     })
   }
 
@@ -28,16 +30,14 @@ export class Game {
     const treatment = this.session.treatment
     const informCount = Math.round(this.players.length * treatment.pi)
     shuffle(this.players).forEach((player, i) => {
-      player.inform = i < informCount
+      player.informed = i < informCount
     })
-    console.log(this.players.map(p => (p.inform ? 1 : 0)))
   }
 
   setQuality(): void {
     const theta = this.session.treatment.theta
     const rand = Math.random()
     this.quality = rand < theta ? 'high' : 'low'
-    console.log('check', rand.toFixed(3), theta, this.quality)
   }
 
   summarize(): GameSummary {

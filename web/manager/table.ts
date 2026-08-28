@@ -20,7 +20,7 @@ export class Table {
     summary.participants.forEach(p => {
       el(this.div, 'div', { className: 'gridCell', textContent: `${p.id}` })
       el(this.div, 'div', { className: 'gridCell', textContent: `${p.joined ? 1 : 0}` })
-      el(this.div, 'div', { className: 'gridCell', textContent: `${p.hold ? 1 : 0}` })
+      el(this.div, 'div', { className: 'gridCell', textContent: `${p.ready ? 1 : 0}` })
       el(this.div, 'div', { className: 'gridCell', textContent: `${p.action}` })
     })
   }

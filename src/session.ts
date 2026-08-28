@@ -62,6 +62,19 @@ export class Session {
         this.setupGames()
         this.state = 'game'
       })
+      socket.on('withdraw', (id: string) => {
+        const participant = this.participants.get(id)
+        if (participant == null) return
+        console.log('withdraw', id)
+        participant.action = this.stage
+        participant.ready = true
+      })
+      socket.on('hold', (id: string) => {
+        const participant = this.participants.get(id)
+        if (participant == null) return
+        console.log('hold', id)
+        participant.ready = true
+      })
     })
   }
 

@@ -3,9 +3,9 @@ import type { Treatment } from './treatment.js'
 export interface ParticipantSummary {
   id: string
   game: number
-  hold: boolean
+  ready: boolean
   action: number
-  inform: boolean
+  informed: boolean
   joined: boolean
 }
 

@@ -7,6 +7,7 @@ export class Controls {
   manager: Manager
   div: HTMLDivElement
   treatmentDiv: HTMLDivElement
+  sessionDiv: HTMLDivElement
 
   constructor(manager: Manager) {
     this.manager = manager
@@ -24,6 +25,7 @@ export class Controls {
     })
     this.treatmentDiv = el(this.div, 'div', { className: 'controlsColumn' })
     this.treatmentDiv.style.marginBottom = '1vmin'
+    this.treatmentDiv.style.userSelect = 'none'
     const instructionsButton = el(this.div, 'button', {
       id: 'instructionsButton',
       textContent: 'Instructions',
@@ -32,7 +34,6 @@ export class Controls {
       console.log('begin')
       this.manager.socket.emit('instructions')
     })
-
     const gameButton = el(this.div, 'button', {
       id: 'gameButton',
       textContent: 'Game',
@@ -41,18 +42,24 @@ export class Controls {
       console.log('game')
       this.manager.socket.emit('game')
     })
+    this.sessionDiv = el(this.div, 'div', { className: 'controlsColumn' })
+    this.sessionDiv.style.marginTop = '1vmin'
+    this.sessionDiv.style.userSelect = 'none'
   }
 
   update(summary: SessionSummary): void {
     this.treatmentDiv.replaceChildren()
-    this.treatmentDiv.style.userSelect = 'none'
     const treat = summary.treatment
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `Treatment ${treat.id}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `Pi: ${treat.pi}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `Theta: ${treat.theta}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `Lambda: ${treat.lambda}` })
+    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `treatment ${treat.id}` })
+    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `oi: ${treat.pi}` })
+    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `theta: ${treat.theta}` })
+    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `lambda: ${treat.lambda}` })
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `RH: ${treat.RH}` })
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `D: ${treat.D}` })
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `RL: ${treat.RL}` })
+    this.sessionDiv.replaceChildren()
+    el(this.sessionDiv, 'div', { className: `textBox`, textContent: `state: ${summary.state}` })
+    el(this.sessionDiv, 'div', { className: `textBox`, textContent: `period: ${summary.period}` })
+    el(this.sessionDiv, 'div', { className: `textBox`, textContent: `stage: ${summary.stage}` })
   }
 }

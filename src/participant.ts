@@ -7,8 +7,8 @@ export class Participant {
   socket?: IOSocket
   id: string
   game = 0
-  hold = true
-  inform = true
+  ready = false
+  informed = false
   action = 3
 
   constructor(session: Session, id: string) {
@@ -21,8 +21,8 @@ export class Participant {
     return {
       id: this.id,
       game: this.game,
-      inform: this.inform,
-      hold: this.hold,
+      informed: this.informed,
+      ready: this.ready,
       action: this.action,
       joined: this.socket != null,
     }

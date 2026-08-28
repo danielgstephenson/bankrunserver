@@ -26,6 +26,12 @@ export class Client {
       this.checkToken(summary.token)
       this.decision.update(summary)
     })
+    this.socket.on('joined', (id: string) => {
+      this.id = id
+      this.join.div.style.display = 'none'
+      console.log('joined', id)
+      document.title = `Client ${id}`
+    })
   }
 
   checkToken(token: string): void {
