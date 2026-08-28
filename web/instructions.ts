@@ -1,4 +1,4 @@
-import type { SessionSummary } from './shared/types.js'
+import type { SessionSummary } from './shared/summary.js'
 import { el } from './builder.js'
 import type { Client } from './client.js'
 

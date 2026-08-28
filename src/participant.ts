@@ -1,4 +1,4 @@
-import type { ParticipantSummary } from '../web/shared/types.js'
+import type { ParticipantSummary } from '../web/shared/summary.js'
 import type { IOSocket } from './server.js'
 import type { Session } from './session.js'
 

@@ -1,4 +1,4 @@
-import type { Treatment } from './treatment.ts'
+import type { Treatment } from './treatment.js'
 
 export interface ParticipantSummary {
   id: string
@@ -22,7 +22,5 @@ export interface SessionSummary {
 export interface GameSummary {
   id: number
   quality: string
-  period: number
-  stage: number
   payVec: number[]
 }

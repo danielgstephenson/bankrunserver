@@ -6,7 +6,7 @@ import { getDateString } from './dateString.js'
 import { Participant } from './participant.js'
 import { range, shuffle } from '../web/shared/math.js'
 import { once } from 'node:events'
-import type { SessionSummary } from '../web/shared/types.js'
+import type { SessionSummary } from '../web/shared/summary.js'
 import { treatment1, treatments } from '../web/shared/treatment.js'
 import { Game } from './game.js'
 import { gameCount, participantCount, playerCount } from '../web/shared/parameters.js'
@@ -53,9 +53,12 @@ export class Session {
         console.log(`treatment ${id}`)
         this.treatment = treatments[id - 1]
       })
-      socket.on('begin', _ => {
-        console.log('begin')
-        if (this.state !== 'instructions') return
+      socket.on('instructions', _ => {
+        console.log('instructions')
+        this.state = 'instructions'
+      })
+      socket.on('game', _ => {
+        console.log('game')
         this.state = 'game'
       })
     })

@@ -5,6 +5,15 @@ body {
   justify-content: flex-start;
   padding: 0;
   margin: 0;
+  font-size: 10vmin;
+  font-family: sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }
 
 #joinDiv {
@@ -17,7 +26,6 @@ body {
 }
 
 #idInput {
-  font-size: 10vmin;
   text-align: center;
   border-radius: 2vmin;
   padding: 2vmin;
@@ -26,7 +34,6 @@ body {
 }
 
 #joinButton {
-  font-size: 10vmin;
   border-radius: 2vmin;
   padding: 2vmin;
   cursor: pointer;
@@ -34,7 +41,6 @@ body {
 
 #joinErrorDiv {
   color: red;
-  font-size: 10vmin;
   border-radius: 2vmin;
   padding: 2vmin;
   height: 15vmin;
@@ -48,6 +54,17 @@ body {
   text-align: center;
   width: 100vmin;
   height: 100vmin;
+}
+
+#decisionDiv {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100vmin;
+  height: 100vmin;
+  font-size: 3vmin;
 }
 
 #disconnectedDiv {
@@ -64,9 +81,7 @@ body {
 
 .textBox {
   display: block;
-  font-size: 10vmin;
   text-align: center;
-  width: 100vmin;
-  padding: 2vmin;
+  padding: 0vmin;
   user-select: none;
 }

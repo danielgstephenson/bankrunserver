@@ -1,6 +1,6 @@
 import { el } from '../builder.js'
 import { range } from '../shared/math.js'
-import type { SessionSummary } from '../shared/types.js'
+import type { SessionSummary } from '../shared/summary.js'
 import type { Manager } from './manager.js'
 
 export class Controls {
@@ -24,13 +24,22 @@ export class Controls {
     })
     this.treatmentDiv = el(this.div, 'div', { className: 'controlsColumn' })
     this.treatmentDiv.style.marginBottom = '1vmin'
-    const beginButton = el(this.div, 'button', {
-      id: 'beginButton',
-      textContent: 'Begin',
+    const instructionsButton = el(this.div, 'button', {
+      id: 'instructionsButton',
+      textContent: 'Instructions',
     })
-    beginButton.addEventListener('click', _ => {
+    instructionsButton.addEventListener('click', _ => {
       console.log('begin')
-      this.manager.socket.emit('begin')
+      this.manager.socket.emit('instructions')
+    })
+
+    const gameButton = el(this.div, 'button', {
+      id: 'gameButton',
+      textContent: 'Game',
+    })
+    gameButton.addEventListener('click', _ => {
+      console.log('game')
+      this.manager.socket.emit('game')
     })
   }
 
@@ -43,7 +52,7 @@ export class Controls {
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `Theta: ${treat.theta}` })
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `Lambda: ${treat.lambda}` })
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `RH: ${treat.RH}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `RL: ${treat.RL}` })
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `D: ${treat.D}` })
+    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `RL: ${treat.RL}` })
   }
 }

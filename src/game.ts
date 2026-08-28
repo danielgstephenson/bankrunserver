@@ -1,5 +1,5 @@
 import type { Treatment } from '../web/shared/treatment.js'
-import type { GameSummary } from '../web/shared/types.js'
+import type { GameSummary } from '../web/shared/summary.js'
 import type { Participant } from './participant.js'
 import type { Session } from './session.js'
 
@@ -9,8 +9,6 @@ export class Game {
   players: Participant[] = []
   id: number
   quality = 'low'
-  period = 0
-  stage = 0
   payVec = [0, 0, 0]
 
   constructor(session: Session) {
@@ -44,8 +42,6 @@ export class Game {
     return {
       id: this.id,
       quality: this.quality,
-      period: this.period,
-      stage: this.stage,
       payVec: this.payVec,
     }
   }
