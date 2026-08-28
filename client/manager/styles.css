@@ -5,6 +5,15 @@ body {
   justify-content: center;
   padding: 1vmin;
   margin: 0;
+  font-size: 2.4vmin;
+  font-family: sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }
 
 #controlsDiv {
@@ -17,7 +26,6 @@ body {
 }
 
 #tableGrid {
-  font-size: 3vmin;
   margin: 1vmin;
   display: grid;
   grid-template-columns: repeat(4, max-content);
@@ -41,15 +49,13 @@ body {
 
 .textBox {
   display: block;
-  font-size: 3vmin;
   text-align: center;
   padding: 0vmin;
   user-select: none;
 }
 
 button {
-  font-size: 3vmin;
   border-radius: 1vmin;
-  padding: 0.5vmin;
+  padding: 0.4vmin;
   cursor: pointer;
 }
