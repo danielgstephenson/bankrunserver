@@ -59,6 +59,7 @@ export class Session {
       })
       socket.on('game', _ => {
         console.log('game')
+        this.setupGames()
         this.state = 'game'
       })
     })
@@ -68,6 +69,7 @@ export class Session {
     const participants = shuffle([...this.participants.values()])
     const games = [...this.games.values()]
     for (const game of games) {
+      game.players = []
       for (const _ of range(playerCount)) {
         const player = participants.pop()
         if (player == null) return

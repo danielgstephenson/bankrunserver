@@ -1,11 +1,10 @@
-import type { Treatment } from '../web/shared/treatment.js'
 import type { GameSummary } from '../web/shared/summary.js'
 import type { Participant } from './participant.js'
 import type { Session } from './session.js'
+import { shuffle } from '../web/shared/math.js'
 
 export class Game {
   session: Session
-  treatment: Treatment
   players: Participant[] = []
   id: number
   quality = 'low'
@@ -13,7 +12,6 @@ export class Game {
 
   constructor(session: Session) {
     this.session = session
-    this.treatment = session.treatment
     this.id = this.session.games.length
     this.session.games.push(this)
   }
@@ -27,15 +25,19 @@ export class Game {
   }
 
   setTypes(): void {
-    const informCount = Math.round(this.players.length * this.treatment.pi)
-    this.players.forEach((player, i) => {
+    const treatment = this.session.treatment
+    const informCount = Math.round(this.players.length * treatment.pi)
+    shuffle(this.players).forEach((player, i) => {
       player.inform = i < informCount
     })
+    console.log(this.players.map(p => (p.inform ? 1 : 0)))
   }
 
   setQuality(): void {
-    const theta = this.treatment.theta
-    this.quality = Math.random() < theta ? 'high' : 'low'
+    const theta = this.session.treatment.theta
+    const rand = Math.random()
+    this.quality = rand < theta ? 'high' : 'low'
+    console.log('check', rand.toFixed(3), theta, this.quality)
   }
 
   summarize(): GameSummary {

@@ -1,7 +1,7 @@
 import type { Game } from './game.js'
 
 export function getPayVec(game: Game): number[] {
-  const treatment = game.treatment
+  const treatment = game.session.treatment
   const lambda = treatment.lambda
   const RH = treatment.RH
   const RL = treatment.RL

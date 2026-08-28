@@ -23,7 +23,6 @@ export class Client {
       this.disconnected.div.style.display = 'flex'
     })
     this.socket.on('summary', (summary: SessionSummary) => {
-      console.log('state', summary.state)
       this.checkToken(summary.token)
       this.decision.update(summary)
     })

@@ -28,6 +28,7 @@ export class Decision {
       className: 'textBox',
       textContent: `It is currently stage ${summary.stage}.`,
     })
+    console.log('inform', player.inform)
     if (player.inform) {
       el(this.infoDiv, 'div', {
         className: 'textBox',
