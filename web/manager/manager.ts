@@ -23,6 +23,7 @@ export class Manager {
       this.checkToken(summary.token)
       this.summary = summary
       this.table.update(summary)
+      this.controls.update(summary)
     })
   }
 

@@ -4,12 +4,12 @@ import { makeServer } from './server.js'
 import { type IOServer } from './server.js'
 import { getDateString } from './dateString.js'
 import { Participant } from './participant.js'
-import { range, shuffle } from '../client/shared/math.js'
+import { range, shuffle } from '../web/shared/math.js'
 import { once } from 'node:events'
-import type { SessionSummary } from '../client/shared/types.js'
-import { treatment1 } from './treatment.js'
+import type { SessionSummary } from '../web/shared/types.js'
+import { treatment1, treatments } from '../web/shared/treatment.js'
 import { Game } from './game.js'
-import { gameCount, participantCount } from './parameters.js'
+import { gameCount, participantCount, playerCount } from '../web/shared/parameters.js'
 
 export class Session {
   token = `${Math.random()}`
@@ -49,6 +49,10 @@ export class Session {
         console.log(`joined: ${id}`)
         socket.emit('joined', id)
       })
+      socket.on('treatment', (id: number) => {
+        console.log(`treatment ${id}`)
+        this.treatment = treatments[id - 1]
+      })
       socket.on('begin', _ => {
         console.log('begin')
         if (this.state !== 'instructions') return
@@ -61,7 +65,7 @@ export class Session {
     const participants = shuffle([...this.participants.values()])
     const games = [...this.games.values()]
     for (const game of games) {
-      for (const _ of range(this.treatment.n)) {
+      for (const _ of range(playerCount)) {
         const player = participants.pop()
         if (player == null) return
         game.players.push(player)

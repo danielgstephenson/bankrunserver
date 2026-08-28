@@ -1,12 +1,4 @@
-export type Treatment = {
-  n: number
-  lambda: number
-  RL: number
-  RH: number
-  D: number
-  pi: number
-  theta: number
-}
+import type { Treatment } from './treatment.ts'
 
 export interface ParticipantSummary {
   id: string

@@ -25,6 +25,24 @@ textarea {
   margin: 1vmin;
 }
 
+.controlsColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.controlsRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+}
+
 #tableGrid {
   margin: 1vmin;
   display: grid;

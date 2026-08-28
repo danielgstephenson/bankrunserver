@@ -17,8 +17,7 @@ export function getPayVec(game: Game): number[] {
     return [D, D, RH]
   }
   const pay1 = w1 > (lambda * RL) / D ? (lambda * RL) / w1 : D
-  const pay2 =
-    w1 > (lambda * RL) / D ? 0 : w12 > (lambda * RL) / D ? (lambda * RL - w1 * D) / w2 : D
+  const pay2 = w1 > (lambda * RL) / D ? 0 : w12 > (lambda * RL) / D ? (lambda * RL - w1 * D) / w2 : D
   const pay3 = w12 > (lambda * RL) / D ? 0 : (RL - (w12 * D) / lambda) / (1 - w12)
   return [pay1, pay2, pay3]
 }

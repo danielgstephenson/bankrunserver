@@ -1,4 +1,5 @@
-import type { GameSummary, Treatment } from '../client/shared/types.js'
+import type { Treatment } from '../web/shared/treatment.js'
+import type { GameSummary } from '../web/shared/types.js'
 import type { Participant } from './participant.js'
 import type { Session } from './session.js'
 

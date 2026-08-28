@@ -10,10 +10,10 @@
   "scripts": {
     "app": "npm run build && electron .",
     "release": "npm run build && electron-builder --win dir",
-    "build": "node scripts/copy.mjs && tsc -p client && tsc",
+    "build": "node scripts/copy.mjs && tsc -p web && tsc",
     "dev": "npm run build && node dist/src/index.js",
     "start": "node dist/src/index.js",
-    "typecheck": "tsc --noEmit && tsc -p client --noEmit",
+    "typecheck": "tsc --noEmit && tsc -p web --noEmit",
     "lint": "eslint ."
   },
   "dependencies": {
