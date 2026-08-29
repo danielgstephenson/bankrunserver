@@ -112,7 +112,7 @@ export class Session {
     })
     this.stage += 1
     this.participants.forEach(p => {
-      p.ready = p.action < this.stage
+      p.ready = p.action < this.stage && this.stage < 3
     })
     if (this.stage > 3) {
       this.advancePeriod()
