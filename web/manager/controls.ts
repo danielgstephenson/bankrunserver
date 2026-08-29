@@ -51,7 +51,7 @@ export class Controls {
     this.treatmentDiv.replaceChildren()
     const treat = summary.treatment
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `treatment ${treat.id}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `oi: ${treat.pi}` })
+    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `pi: ${treat.pi}` })
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `theta: ${treat.theta}` })
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `lambda: ${treat.lambda}` })
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `RH: ${treat.RH}` })

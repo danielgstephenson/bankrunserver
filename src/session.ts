@@ -10,6 +10,7 @@ import type { SessionSummary } from '../web/shared/summary.js'
 import { treatment1, treatments } from '../web/shared/treatment.js'
 import { Game } from './game.js'
 import { gameCount, participantCount, playerCount } from '../web/shared/parameters.js'
+import { getPayVec } from './payoff.js'
 
 export class Session {
   token = `${Math.random()}`
@@ -29,12 +30,11 @@ export class Session {
     range(1, participantCount).forEach(i => new Participant(this, `${i}`))
     range(gameCount).forEach(_ => new Game(this))
     this.setupIo()
-    setInterval(() => this.sendUpdates(), 100)
+    setInterval(() => this.update(), 100)
   }
 
   setupIo(): void {
     this.io.on('connection', socket => {
-      console.log(`connected: ${socket.id}`)
       socket.on('join', (id: string) => {
         const participant = this.participants.get(id)
         if (participant == null) {
@@ -75,6 +75,12 @@ export class Session {
         console.log('hold', id)
         participant.ready = true
       })
+      socket.on('continue', (id: string) => {
+        const participant = this.participants.get(id)
+        if (participant == null) return
+        console.log('continue', id)
+        participant.ready = true
+      })
     })
   }
 
@@ -92,9 +98,37 @@ export class Session {
     games.forEach(game => game.setup())
   }
 
-  sendUpdates(): void {
+  update(): void {
     const summary = this.summarize()
     this.io.emit('summary', summary)
+    const participants = shuffle([...this.participants.values()])
+    const ready = participants.every(p => p.ready)
+    if (ready) this.advanceStage()
+  }
+
+  advanceStage(): void {
+    this.games.forEach(game => {
+      game.payVec = getPayVec(game)
+    })
+    this.stage += 1
+    this.participants.forEach(p => {
+      p.ready = p.action < this.stage
+    })
+    if (this.stage > 3) {
+      this.advancePeriod()
+      return
+    }
+    console.log('advanceStage', this.stage)
+  }
+
+  advancePeriod(): void {
+    this.stage = 1
+    this.period += 1
+    this.participants.forEach(p => {
+      p.ready = false
+      p.action = 3
+    })
+    console.log('advancePeriod', this.period)
   }
 
   summarize(): SessionSummary {
