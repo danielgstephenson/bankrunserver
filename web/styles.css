@@ -22,7 +22,6 @@ textarea {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: auto;
 }
 
 #infoDiv {
@@ -31,7 +30,6 @@ textarea {
   align-items: center;
   justify-content: flex-start;
   gap: 1vmin;
-  padding: auto;
 }
 
 #actionRow {
@@ -40,7 +38,6 @@ textarea {
   align-items: center;
   justify-content: center;
   gap: 2vmin;
-  padding: auto;
 }
 
 #idInput {
