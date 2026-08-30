@@ -112,7 +112,7 @@ export class Session {
     })
     this.stage += 1
     this.participants.forEach(p => {
-      p.ready = p.action < this.stage && this.stage < 3
+      p.ready = p.action === 1 && this.stage == 2
     })
     if (this.stage > 3) {
       this.advancePeriod()
@@ -124,6 +124,7 @@ export class Session {
   advancePeriod(): void {
     this.stage = 1
     this.period += 1
+    this.games.forEach(g => g.setQuality())
     this.participants.forEach(p => {
       p.ready = false
       p.action = 3

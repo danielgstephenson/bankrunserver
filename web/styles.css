@@ -106,6 +106,13 @@ textarea {
   height: 100vh;
 }
 
+.actionButton {
+  width: 40vmin;
+  height: 10vmin;
+  border-radius: 1.5vmin;
+  text-align: center;
+}
+
 .textBox {
   display: block;
   text-align: center;
