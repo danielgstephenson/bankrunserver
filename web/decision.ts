@@ -22,11 +22,11 @@ export class Decision {
     this.infoDiv.style.margin = '1vmin'
     this.actionRow = el(this.div, 'div', { id: 'actionRow' })
     this.actionRow.style.margin = '1vmin'
-    this.withdrawButton = el(this.actionRow, 'button', { textContent: 'Withdraw', className: 'actionButton'  })
+    this.withdrawButton = el(this.actionRow, 'button', { textContent: 'Withdraw', className: 'actionButton' })
     this.withdrawButton.addEventListener('click', _ => this.client.socket.emit('withdraw', this.client.id))
     this.holdButton = el(this.actionRow, 'button', { textContent: 'Hold', className: 'actionButton' })
     this.holdButton.addEventListener('click', _ => this.client.socket.emit('hold', this.client.id))
-    this.continueButton = el(this.actionRow, 'button', { textContent: 'Continue', className: 'actionButton'  })
+    this.continueButton = el(this.actionRow, 'button', { textContent: 'Continue', className: 'actionButton' })
     this.continueButton.style.display = 'none'
     this.continueButton.addEventListener('click', _ => this.client.socket.emit('continue', this.client.id))
     this.waitingDiv = el(this.actionRow, 'div', { className: 'textBox', textContent: `Waiting for others...` })
@@ -43,9 +43,9 @@ export class Decision {
   updateActionRow(summary: SessionSummary): void {
     const player = summary.participants.find(p => p.id === this.client.id)
     if (player == null) return
-    this.withdrawButton.style.display = summary.stage < 3 && !player.ready ? 'block' : 'none'
-    this.holdButton.style.display = summary.stage < 3 && !player.ready ? 'block' : 'none'
-    this.continueButton.style.display = summary.stage === 3 && !player.ready ? 'block' : 'none'
+    this.withdrawButton.style.display = summary.stage < player.action && !player.ready ? 'block' : 'none'
+    this.holdButton.style.display = summary.stage < player.action && !player.ready ? 'block' : 'none'
+    this.continueButton.style.display = summary.stage >= player.action && !player.ready ? 'block' : 'none'
     this.waitingDiv.style.display = player.ready ? 'block' : 'none'
   }
 
@@ -76,6 +76,11 @@ export class Decision {
         className: 'textBox',
         textContent: `You withdrew in stage ${player.action} and earned $${payoff.toFixed(2)}`,
       })
+    } else if (player.action < summary.stage) {
+      el(this.infoDiv, 'div', {
+        className: 'textBox',
+        textContent: `You withdrew in stage ${player.action}.`,
+      })
     } else if (player.ready && player.action > summary.stage) {
       el(this.infoDiv, 'div', {
         className: 'textBox',
@@ -85,11 +90,6 @@ export class Decision {
       el(this.infoDiv, 'div', {
         className: 'textBox',
         textContent: `You withdrew.`,
-      })
-    } else if (player.ready && player.action < summary.stage) {
-      el(this.infoDiv, 'div', {
-        className: 'textBox',
-        textContent: `You withdrew in stage ${player.action}.`,
       })
     } else {
       el(this.infoDiv, 'div', {
