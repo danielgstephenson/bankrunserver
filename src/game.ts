@@ -9,6 +9,7 @@ export class Game {
   id: number
   quality = 'low'
   payVec = [0, 0, 0]
+  withdrawCounts = [0, 0, 0]
 
   constructor(session: Session) {
     this.session = session
@@ -45,6 +46,7 @@ export class Game {
       id: this.id,
       quality: this.quality,
       payVec: this.payVec,
+      withdrawCounts: this.withdrawCounts,
     }
   }
 }

@@ -23,4 +23,5 @@ export interface GameSummary {
   id: number
   quality: string
   payVec: number[]
+  withdrawCounts: number[]
 }

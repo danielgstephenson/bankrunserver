@@ -10,7 +10,7 @@ import type { SessionSummary } from '../web/shared/summary.js'
 import { treatment1, treatments } from '../web/shared/treatment.js'
 import { Game } from './game.js'
 import { gameCount, participantCount, playerCount } from '../web/shared/parameters.js'
-import { getPayVec } from './payoff.js'
+import { getPayVec, getWithdrawCounts } from './payoff.js'
 
 export class Session {
   token = `${Math.random()}`
@@ -108,6 +108,7 @@ export class Session {
 
   advanceStage(): void {
     this.games.forEach(game => {
+      game.withdrawCounts = getWithdrawCounts(game)
       game.payVec = getPayVec(game)
     })
     this.stage += 1

@@ -38,6 +38,7 @@ export class Decision {
     this.div.style.display = visible ? 'flex' : 'none'
     this.updateInfoDiv(summary)
     this.updateActionRow(summary)
+    this.outcomePlot.update(summary)
   }
 
   updateActionRow(summary: SessionSummary): void {
@@ -94,7 +95,7 @@ export class Decision {
     } else {
       el(this.infoDiv, 'div', {
         className: 'textBox',
-        textContent: `What will you do in this stage?`,
+        textContent: `What will you do this stage?`,
       })
     }
   }

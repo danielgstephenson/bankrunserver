@@ -1,3 +1,9 @@
+:root {
+  --bar-width: 23vmin;
+  --bar-height: 50vmin;
+  --label-height: 5vmin;
+}
+
 *,
 *::before,
 *::after {
@@ -85,16 +91,7 @@ textarea {
   padding: 2vmin;
   width: 100vmin;
   height: 100vmin;
-  font-size: 5vmin;
-}
-
-#outcomePlot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 60vmin;
+  font-size: 3vmin;
 }
 
 #disconnectedDiv {
@@ -109,10 +106,11 @@ textarea {
 }
 
 .actionButton {
-  width: 40vmin;
+  width: 30vmin;
   height: 10vmin;
   border-radius: 1.5vmin;
   text-align: center;
+  font-size: 5vmin;
 }
 
 .textBox {
@@ -120,4 +118,59 @@ textarea {
   text-align: center;
   padding: 0vmin;
   user-select: none;
+}
+
+#outcomePlot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  margin-bottom: 2vmin;
+}
+
+.plotRow {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  outline: 0px solid black;
+  gap: 1vmin;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.barArea {
+  display: flex;
+  flex-direction: column;
+  background: hwb(130 0% 50% / 0);
+  outline: 0px solid black;
+  width: var(--bar-width);
+  height: var(--bar-height);
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.bar {
+  display: flex;
+  flex-direction: column;
+  background: hwb(130 0% 50% / 1);
+  outline: 0px solid black;
+  width: var(--bar-width);
+  height: var(--bar-height);
+  align-items: center;
+  justify-content: center;
+}
+
+.plotLabel {
+  display: flex;
+  flex-direction: column;
+  width: var(--bar-width);
+  height: var(--label-height);
+  padding: 1vmin 0vmin;
+  background: hwb(130 0% 50% / 0.2);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  outline-offset: -0.6vmin;
 }
