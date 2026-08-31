@@ -15,13 +15,11 @@ export class Table {
     this.div.innerHTML = ''
     el(this.div, 'div', { className: 'gridCell header', textContent: 'id' })
     el(this.div, 'div', { className: 'gridCell header', textContent: 'join' })
-    el(this.div, 'div', { className: 'gridCell header', textContent: 'hold' })
-    el(this.div, 'div', { className: 'gridCell header', textContent: 'action' })
+    el(this.div, 'div', { className: 'gridCell header', textContent: 'ready' })
     summary.participants.forEach(p => {
       el(this.div, 'div', { className: 'gridCell', textContent: `${p.id}` })
       el(this.div, 'div', { className: 'gridCell', textContent: `${p.joined ? 1 : 0}` })
       el(this.div, 'div', { className: 'gridCell', textContent: `${p.ready ? 1 : 0}` })
-      el(this.div, 'div', { className: 'gridCell', textContent: `${p.action}` })
     })
   }
 }
