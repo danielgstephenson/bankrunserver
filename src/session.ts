@@ -46,39 +46,32 @@ export class Session {
           participant.socket.disconnect()
         }
         participant.socket = socket
-        console.log(`joined: ${id}`)
         socket.emit('joined', id)
       })
       socket.on('treatment', (id: number) => {
-        console.log(`treatment ${id}`)
         this.treatment = treatments[id - 1]
       })
       socket.on('instructions', _ => {
-        console.log('instructions')
         this.state = 'instructions'
       })
       socket.on('game', _ => {
-        console.log('game')
         this.setupGames()
         this.state = 'game'
       })
       socket.on('withdraw', (id: string) => {
         const participant = this.participants.get(id)
         if (participant == null) return
-        console.log('withdraw', id)
         participant.action = this.stage
         participant.ready = true
       })
       socket.on('hold', (id: string) => {
         const participant = this.participants.get(id)
         if (participant == null) return
-        console.log('hold', id)
         participant.ready = true
       })
       socket.on('continue', (id: string) => {
         const participant = this.participants.get(id)
         if (participant == null) return
-        console.log('continue', id)
         participant.ready = true
       })
     })
@@ -119,7 +112,6 @@ export class Session {
       this.advancePeriod()
       return
     }
-    console.log('advanceStage', this.stage)
   }
 
   advancePeriod(): void {
@@ -130,7 +122,6 @@ export class Session {
       p.ready = false
       p.action = 3
     })
-    console.log('advancePeriod', this.period)
   }
 
   summarize(): SessionSummary {

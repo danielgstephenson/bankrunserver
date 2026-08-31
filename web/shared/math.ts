@@ -9,3 +9,16 @@ export function shuffle<T>(array: T[]): T[] {
     .sort((a, b) => a.priority - b.priority)
     .map(x => x.value)
 }
+
+export function sum(array: number[]): number {
+  let total = 0
+  array.forEach(x => {
+    total = total + x
+  })
+  return total
+}
+
+export function mean(array: number[]): number {
+  if (array.length === 0) return 0
+  return sum(array) / array.length
+}

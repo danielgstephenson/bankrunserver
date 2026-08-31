@@ -1,5 +1,6 @@
 import type { SessionSummary } from '../shared/summary.js'
 import { Controls } from './controls.js'
+import { HistoryPlot } from './historyPlot.js'
 import { Table } from './table.js'
 import { io } from '/socket.io/socket.io.esm.min.js'
 
@@ -8,6 +9,7 @@ export class Manager {
   token = ''
   table = new Table(this)
   controls = new Controls(this)
+  historyPlot = new HistoryPlot(this)
   summary?: SessionSummary
 
   constructor() {

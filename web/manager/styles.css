@@ -5,7 +5,7 @@ body {
   justify-content: center;
   padding: 1vmin;
   margin: 0;
-  font-size: 5vmin;
+  font-size: 3vmin;
   font-family: sans-serif;
 }
 
@@ -70,6 +70,14 @@ textarea {
   text-align: center;
   padding: 0vmin;
   user-select: none;
+}
+
+#historyPlot {
+  display: flex;
+  height: 90vmin;
+  width: 90vmin;
+  margin: 1vmin;
+  outline: 1px solid black;
 }
 
 button {
