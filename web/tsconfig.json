@@ -4,21 +4,12 @@
     "target": "es2023",
     "lib": ["es2023", "DOM"],
     "types": [],
-
-    "rootDir": ".",
-    "outDir": "../public",
-    "sourceMap": true,
-
+    "noEmit": true,
     "strict": true,
     "noImplicitOverride": true,
-
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
-
-    "paths": {
-      "/socket.io/socket.io.esm.min.js": ["../node_modules/socket.io-client/build/esm/index.d.ts"]
-    }
   },
-  "include": ["."]
+  "include": [".", "../shared"]
 }

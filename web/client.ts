@@ -1,8 +1,8 @@
 import { Disconnected } from './disconnected.js'
 import { Instructions } from './instructions.js'
 import { Join } from './join.js'
-import { io } from '/socket.io/socket.io.esm.min.js'
-import type { SessionSummary } from './shared/summary.js'
+import { io } from 'socket.io-client'
+import type { SessionSummary } from '../shared/summary.js'
 import { Decision } from './decision.js'
 
 export class Client {

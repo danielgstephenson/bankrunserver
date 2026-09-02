@@ -1,7 +1,7 @@
 import { el } from './builder.js'
 import type { Client } from './client.js'
 import { OutcomePlot } from './outcomePlot.js'
-import type { SessionSummary } from './shared/summary.js'
+import type { SessionSummary } from '../shared/summary.js'
 
 export class Decision {
   client: Client

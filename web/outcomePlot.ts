@@ -1,8 +1,8 @@
 import { el } from './builder.js'
 import type { Client } from './client.js'
 import type { Decision } from './decision.js'
-import { range } from './shared/math.js'
-import type { SessionSummary } from './shared/summary.js'
+import { range } from '../shared/math.js'
+import type { SessionSummary } from '../shared/summary.js'
 
 export class OutcomePlot {
   decision: Decision

@@ -1,4 +1,4 @@
-import { mean } from '../web/shared/math.js'
+import { mean } from '../shared/math.js'
 import type { Game } from './game.js'
 
 export interface Entry {

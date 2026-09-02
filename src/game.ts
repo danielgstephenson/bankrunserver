@@ -1,7 +1,7 @@
-import type { GameSummary } from '../web/shared/summary.js'
+import type { GameSummary } from '../shared/summary.js'
 import type { Participant } from './participant.js'
 import type { Session } from './session.js'
-import { shuffle } from '../web/shared/math.js'
+import { shuffle } from '../shared/math.js'
 
 export class Game {
   session: Session

@@ -1,6 +1,6 @@
 import { el } from '../builder.js'
-import { range } from '../shared/math.js'
-import type { SessionSummary } from '../shared/summary.js'
+import { range } from '../../shared/math.js'
+import type { SessionSummary } from '../../shared/summary.js'
 import type { Manager } from './manager.js'
 
 export class Controls {

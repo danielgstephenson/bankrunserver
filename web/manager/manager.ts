@@ -1,8 +1,8 @@
-import type { SessionSummary } from '../shared/summary.js'
+import type { SessionSummary } from '../../shared/summary.js'
 import { Controls } from './controls.js'
 import { HistoryPlot } from './historyPlot.js'
 import { Table } from './table.js'
-import { io } from '/socket.io/socket.io.esm.min.js'
+import { io } from 'socket.io-client'
 
 export class Manager {
   socket = io()
