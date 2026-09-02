@@ -4,12 +4,14 @@ import { Join } from './join.js'
 import { io } from 'socket.io-client'
 import type { SessionSummary } from '../shared/summary.js'
 import { Decision } from './decision.js'
+import { Complete } from './complete.js'
 
 export class Client {
   socket = io()
   join = new Join(this)
   instructions = new Instructions(this)
   decision = new Decision(this)
+  complete = new Complete(this)
   disconnected = new Disconnected(this)
   token = ''
   id = ''
@@ -25,6 +27,7 @@ export class Client {
     this.socket.on('summary', (summary: SessionSummary) => {
       this.checkToken(summary.token)
       this.decision.update(summary)
+      this.complete.update(summary)
     })
     this.socket.on('joined', (id: string) => {
       this.id = id

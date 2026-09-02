@@ -9,7 +9,7 @@ import { once } from 'node:events'
 import type { SessionSummary } from '../shared/summary.js'
 import { treatment1, treatments } from '../shared/treatment.js'
 import { Game } from './game.js'
-import { gameCount, participantCount, playerCount } from '../shared/parameters.js'
+import { gameCount, maxPeriod, participantCount, playerCount } from '../shared/parameters.js'
 import { getPayVec, getWithdrawCounts } from './payoff.js'
 
 export class Session {
@@ -116,6 +116,11 @@ export class Session {
 
   advancePeriod(): void {
     this.stage = 1
+    if (this.period >= maxPeriod) {
+      this.state = 'complete'
+      this.stage = 3
+      return
+    }
     this.period += 1
     this.games.forEach(g => g.setQuality())
     this.participants.forEach(p => {

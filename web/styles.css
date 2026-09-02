@@ -105,6 +105,18 @@ textarea {
   inset: 0;
 }
 
+#completeDiv {
+  display: none;
+  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+  background-color: white;
+  inset: 0;
+  font-size: 5vmin;
+}
+
 .actionButton {
   width: 30vmin;
   height: 10vmin;
