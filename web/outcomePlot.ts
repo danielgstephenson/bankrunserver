@@ -63,7 +63,7 @@ export class OutcomePlot {
       withdrawLabel.style.background = labelBackground
       withdrawLabel.textContent = past ? `${withdrawCount} Withdrew` : ''
       earnLabel.style.background = labelBackground
-      earnLabel.textContent = summary.stage === 3 ? `Earned $${pay.toFixed(2)}` : ''
+      earnLabel.textContent = summary.stage === 3 && withdrawCount > 0 ? `Earned $${pay.toFixed(2)}` : ''
       bar.style.height = summary.stage < 3 ? '0%' : `${(100 * pay) / RH}%`
       bar.style.background = player.action === i + 1 ? barGreen : barGray
     })

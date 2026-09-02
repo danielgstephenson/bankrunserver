@@ -25,8 +25,8 @@ void app.whenReady().then(async () => {
   if (!existsSync(iconPath)) console.warn(`icon not found: ${iconPath}`)
 
   const win = new BrowserWindow({
-    width: 800,
-    height: 500,
+    width: 600,
+    height: 400,
     icon: iconPath,
   })
   await win.loadURL(`http://localhost:${PORT}/manager/`)

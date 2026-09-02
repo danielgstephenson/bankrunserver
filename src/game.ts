@@ -7,7 +7,6 @@ export class Game {
   session: Session
   players: Participant[] = []
   id: number
-  quality = 'low'
   payVec = [0, 0, 0]
   withdrawCounts = [0, 0, 0]
 
@@ -19,7 +18,6 @@ export class Game {
 
   setup(): void {
     this.setTypes()
-    this.setQuality()
     this.players.forEach(player => {
       player.game = this.id
       player.ready = false
@@ -35,16 +33,9 @@ export class Game {
     })
   }
 
-  setQuality(): void {
-    const theta = this.session.treatment.theta
-    const rand = Math.random()
-    this.quality = rand < theta ? 'high' : 'low'
-  }
-
   summarize(): GameSummary {
     return {
       id: this.id,
-      quality: this.quality,
       payVec: this.payVec,
       withdrawCounts: this.withdrawCounts,
     }

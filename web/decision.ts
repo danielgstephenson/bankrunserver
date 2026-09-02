@@ -63,7 +63,7 @@ export class Decision {
     if (player.informed) {
       el(this.infoDiv, 'div', {
         className: 'textBox',
-        innerHTML: `The quality is <b>${game.quality}</b>.`,
+        innerHTML: `The quality is <b>${summary.quality}</b>.`,
       })
     } else {
       el(this.infoDiv, 'div', {

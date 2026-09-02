@@ -15,13 +15,13 @@ export interface SessionSummary {
   treatment: Treatment
   period: number
   stage: number
+  quality: string
   participants: ParticipantSummary[]
   games: GameSummary[]
 }
 
 export interface GameSummary {
   id: number
-  quality: string
   payVec: number[]
   withdrawCounts: number[]
 }

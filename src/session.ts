@@ -23,6 +23,7 @@ export class Session {
   state = 'instructions'
   period = 1
   stage = 1
+  quality = 'low'
 
   constructor() {
     this.app = express()
@@ -99,6 +100,12 @@ export class Session {
     if (ready) this.advanceStage()
   }
 
+  setQuality(): void {
+    const theta = this.treatment.theta
+    const rand = Math.random()
+    this.quality = rand < theta ? 'high' : 'low'
+  }
+
   advanceStage(): void {
     this.games.forEach(game => {
       game.withdrawCounts = getWithdrawCounts(game)
@@ -122,7 +129,7 @@ export class Session {
       return
     }
     this.period += 1
-    this.games.forEach(g => g.setQuality())
+    this.setQuality()
     this.participants.forEach(p => {
       p.ready = false
       p.action = 3
@@ -137,6 +144,7 @@ export class Session {
       treatment: this.treatment,
       period: this.period,
       stage: this.stage,
+      quality: this.quality,
       participants: participants.map(p => p.summarize()),
       games: this.games.map(game => game.summarize()),
     }

@@ -74,10 +74,43 @@ textarea {
 
 #historyPlot {
   display: flex;
+  align-items: center;
+  justify-content: center;
   height: 90vmin;
-  width: 90vmin;
+  width: 100vmin;
+  margin: 0vmin;
+}
+
+#axis {
+  position: relative;
+  display: flex;
+  height: 90%;
+  width: 90%;
   margin: 1vmin;
   outline: 1px solid black;
+}
+
+.informedPoint {
+  display: none;
+  position: absolute;
+  width: 2vmin;
+  height: 2vmin;
+  outline-width: 0.25vmin;
+  outline-style: solid;
+  outline-color: black;
+  transform: translate(-50%, -50%);
+}
+
+.uninformedPoint {
+  display: none;
+  border-radius: 50%;
+  position: absolute;
+  width: 3vmin;
+  height: 3vmin;
+  outline-width: 0.25vmin;
+  outline-style: solid;
+  outline-color: black;
+  transform: translate(-50%, -50%);
 }
 
 button {

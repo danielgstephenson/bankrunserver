@@ -26,6 +26,7 @@ export class Manager {
       this.summary = summary
       this.table.update(summary)
       this.controls.update(summary)
+      this.historyPlot.update(summary)
     })
   }
 
