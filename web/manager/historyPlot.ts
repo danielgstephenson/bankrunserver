@@ -38,8 +38,8 @@ export class HistoryPlot {
     const uninformedMean = mean(uninformed.map(p => p.action))
     const informedPoint = this.informedPoints[summary.period - 1]
     const uninformedPoint = this.uninformedPoints[summary.period - 1]
-    informedPoint.style.top = `${(100 * informedMean) / 3}%`
-    uninformedPoint.style.top = `${(100 * uninformedMean) / 3}%`
+    informedPoint.style.top = `${50 * (3 - informedMean)}%`
+    uninformedPoint.style.top = `${50 * (3 - uninformedMean)}%`
     informedPoint.style.outlineColor = summary.quality === 'high' ? highColor : lowColor
     uninformedPoint.style.outlineColor = summary.quality === 'high' ? highColor : lowColor
     informedPoint.style.display = summary.stage > 2 ? 'block' : 'none'

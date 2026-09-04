@@ -1,6 +1,8 @@
+import { join } from 'node:path'
 import { Session } from './session.js'
 
-export const session = new Session()
+const dataDir = join(import.meta.dirname, '..', '..', '..', 'data', 'BankRun')
+const session = new Session(dataDir)
 
 try {
   const port = 3000

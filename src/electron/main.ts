@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog } from 'electron'
 import { Session } from '../session.js'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { existsSync } from 'node:fs'
 
 const PORT = 3000
@@ -10,7 +10,8 @@ function errorCode(err: unknown): string | undefined {
 }
 
 void app.whenReady().then(async () => {
-  const session = new Session()
+  const appRoot = app.isPackaged ? dirname(app.getPath('exe')) : app.getAppPath()
+  const session = new Session(join(appRoot, '..', 'data', 'BankRun'))
 
   try {
     await session.listen(PORT)

@@ -2,7 +2,6 @@ import express from 'express'
 import { type Express } from 'express'
 import { makeServer } from './server.js'
 import { type IOServer } from './server.js'
-import { getDateString } from './dateString.js'
 import { Participant } from './participant.js'
 import { range, shuffle } from '../shared/math.js'
 import { once } from 'node:events'
@@ -11,12 +10,16 @@ import { treatment1, treatments } from '../shared/treatment.js'
 import { Game } from './game.js'
 import { gameCount, maxPeriod, participantCount, playerCount } from '../shared/parameters.js'
 import { getPayVec, getWithdrawCounts } from './payoff.js'
+import { getDateString } from './dateString.js'
+import { DecisionWriter } from './writer.js'
 
 export class Session {
   token = `${Math.random()}`
+  dataDir: string
+  dateString: string
+  decisionWriter: DecisionWriter
   app: Express
   io: IOServer
-  dateString = getDateString()
   treatment = treatment1
   participants = new Map<string, Participant>()
   games: Game[] = []
@@ -25,7 +28,10 @@ export class Session {
   stage = 1
   quality = 'low'
 
-  constructor() {
+  constructor(dataDir: string) {
+    this.dataDir = dataDir
+    this.dateString = getDateString()
+    this.decisionWriter = new DecisionWriter(this)
     this.app = express()
     this.io = makeServer(this.app)
     range(1, participantCount).forEach(i => new Participant(this, `${i}`))
@@ -122,6 +128,7 @@ export class Session {
   }
 
   advancePeriod(): void {
+    this.decisionWriter.write()
     this.stage = 1
     if (this.period >= maxPeriod) {
       this.state = 'complete'

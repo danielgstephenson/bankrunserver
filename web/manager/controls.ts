@@ -2,6 +2,7 @@ import { el } from '../builder.js'
 import { range } from '../../shared/math.js'
 import type { SessionSummary } from '../../shared/summary.js'
 import type { Manager } from './manager.js'
+import { maxPeriod } from '../../shared/parameters.js'
 
 export class Controls {
   manager: Manager
@@ -59,7 +60,7 @@ export class Controls {
     el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `RL: ${treat.RL}` })
     this.sessionDiv.replaceChildren()
     el(this.sessionDiv, 'div', { className: `textBox`, textContent: `state: ${summary.state}` })
-    el(this.sessionDiv, 'div', { className: `textBox`, textContent: `period: ${summary.period}` })
-    el(this.sessionDiv, 'div', { className: `textBox`, textContent: `stage: ${summary.stage}` })
+    el(this.sessionDiv, 'div', { className: `textBox`, textContent: `period: ${summary.period} / ${maxPeriod}` })
+    el(this.sessionDiv, 'div', { className: `textBox`, textContent: `stage: ${summary.stage} / 3` })
   }
 }
