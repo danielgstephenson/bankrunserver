@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, openSync, writeSync } from 'node:fs'
 import { mkdir, rename, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Session } from './session.js'
+import { mean } from '../shared/math.js'
 
 export async function writeAtomic(dir: string, name: string, contents: string): Promise<string> {
   await mkdir(dir, { recursive: true })
@@ -60,10 +61,50 @@ export class DecisionWriter extends CsvWriter {
         id: participant.id,
         informed: participant.informed,
         action: participant.action,
-        payoff: game.payVec[participant.action],
+        payoff: game.payVec[participant.action - 1],
         pay1: game.payVec[0],
         pay2: game.payVec[1],
         pay3: game.payVec[2],
+      }
+      this.append(row)
+    })
+  }
+}
+
+export class TreatmentWriter extends CsvWriter {
+  constructor(session: Session) {
+    const fileName = `${session.dateString}-treatment.csv`
+    const columns = ['date', 'treatment', 'pi', 'theta', 'lambda', 'RH', 'D', 'RL']
+    super(session, fileName, columns)
+  }
+  write(): void {
+    const treatment = this.session.treatment
+    const row = {
+      date: this.session.dateString,
+      treatment: treatment.id,
+      pi: treatment.pi,
+      theta: treatment.theta,
+      lambda: treatment.lambda,
+      RH: treatment.RH,
+      D: treatment.D,
+      RL: treatment.RL,
+    }
+    this.append(row)
+  }
+}
+
+export class PaymentWriter extends CsvWriter {
+  constructor(session: Session) {
+    const fileName = `${session.dateString}-payment.csv`
+    const columns = ['date', 'id', 'payment']
+    super(session, fileName, columns)
+  }
+  write(): void {
+    this.session.participants.forEach(participant => {
+      const row = {
+        date: this.session.dateString,
+        id: participant.id,
+        payment: mean(participant.payoffHistory).toFixed(2),
       }
       this.append(row)
     })

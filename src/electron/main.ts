@@ -9,10 +9,15 @@ function errorCode(err: unknown): string | undefined {
   return err instanceof Error && 'code' in err && typeof err.code === 'string' ? err.code : undefined
 }
 
-void app.whenReady().then(async () => {
+function getDataRoot(): string {
+  const portableDir = process.env.PORTABLE_EXECUTABLE_DIR
+  if (portableDir !== undefined) return join(portableDir, 'data')
   const appRoot = app.isPackaged ? dirname(app.getPath('exe')) : app.getAppPath()
-  const session = new Session(join(appRoot, '..', 'data', 'BankRun'))
+  return join(appRoot, '..', 'data')
+}
 
+async function main(): Promise<void> {
+  const session = new Session(join(getDataRoot(), 'BankRun'))
   try {
     await session.listen(PORT)
   } catch (err) {
@@ -21,17 +26,23 @@ void app.whenReady().then(async () => {
     app.quit()
     return
   }
-
   const iconPath = join(import.meta.dirname, '..', '..', '..', 'public', 'circle.ico')
   if (!existsSync(iconPath)) console.warn(`icon not found: ${iconPath}`)
-
   const win = new BrowserWindow({
     width: 600,
     height: 400,
     icon: iconPath,
   })
   await win.loadURL(`http://localhost:${PORT}/manager/`)
-})
+}
+
+void app
+  .whenReady()
+  .then(main)
+  .catch(err => {
+    dialog.showErrorBox('Startup failed', String(err))
+    app.quit()
+  })
 
 app.on('window-all-closed', () => {
   app.quit()

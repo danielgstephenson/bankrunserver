@@ -10,6 +10,7 @@ export class Participant {
   ready = false
   informed = false
   action = 3
+  payoffHistory: number[] = []
 
   constructor(session: Session, id: string) {
     this.session = session

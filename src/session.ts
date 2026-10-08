@@ -11,13 +11,15 @@ import { Game } from './game.js'
 import { gameCount, maxPeriod, participantCount, playerCount } from '../shared/parameters.js'
 import { getPayVec, getWithdrawCounts } from './payoff.js'
 import { getDateString } from './dateString.js'
-import { DecisionWriter } from './writer.js'
+import { DecisionWriter, PaymentWriter, TreatmentWriter } from './writer.js'
 
 export class Session {
   token = `${Math.random()}`
   dataDir: string
   dateString: string
+  treatmentWriter: TreatmentWriter
   decisionWriter: DecisionWriter
+  paymentWriter: PaymentWriter
   app: Express
   io: IOServer
   treatment = treatment1
@@ -31,7 +33,9 @@ export class Session {
   constructor(dataDir: string) {
     this.dataDir = dataDir
     this.dateString = getDateString()
+    this.treatmentWriter = new TreatmentWriter(this)
     this.decisionWriter = new DecisionWriter(this)
+    this.paymentWriter = new PaymentWriter(this)
     this.app = express()
     this.io = makeServer(this.app)
     range(1, participantCount).forEach(i => new Participant(this, `${i}`))
@@ -61,9 +65,10 @@ export class Session {
       socket.on('instructions', _ => {
         this.state = 'instructions'
       })
-      socket.on('game', _ => {
+      socket.on('begin', _ => {
         this.setupGames()
         this.state = 'game'
+        this.treatmentWriter.write()
       })
       socket.on('withdraw', (id: string) => {
         const participant = this.participants.get(id)
@@ -85,6 +90,7 @@ export class Session {
   }
 
   setupGames(): void {
+    this.setQuality()
     const participants = shuffle([...this.participants.values()])
     const games = [...this.games.values()]
     for (const game of games) {
@@ -129,10 +135,12 @@ export class Session {
 
   advancePeriod(): void {
     this.decisionWriter.write()
+    this.savePayoffs()
     this.stage = 1
     if (this.period >= maxPeriod) {
       this.state = 'complete'
       this.stage = 3
+      this.paymentWriter.write()
       return
     }
     this.period += 1
@@ -140,6 +148,14 @@ export class Session {
     this.participants.forEach(p => {
       p.ready = false
       p.action = 3
+    })
+  }
+
+  savePayoffs(): void {
+    this.participants.forEach(participant => {
+      const game = this.games[participant.game]
+      const payoff = game.payVec[participant.action - 1]
+      participant.payoffHistory.push(payoff)
     })
   }
 

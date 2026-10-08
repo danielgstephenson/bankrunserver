@@ -8,4 +8,5 @@ await esbuild.build({
   format: 'esm',
   target: 'es2023',
   sourcemap: true,
+  loader: { '.txt': 'text' },
 })

@@ -7,41 +7,34 @@ import { maxPeriod } from '../../shared/parameters.js'
 export class Controls {
   manager: Manager
   div: HTMLDivElement
-  treatmentDiv: HTMLDivElement
+  paramsDiv: HTMLDivElement
   sessionDiv: HTMLDivElement
+  treatmentRow: HTMLDivElement
+  beginButton: HTMLButtonElement
 
   constructor(manager: Manager) {
     this.manager = manager
     this.div = el(document.body, 'div', { id: 'controlsDiv' })
     el(this.div, 'div', { className: `textBox`, textContent: 'Set Treatment: ' })
-    const treatmentRow = el(this.div, 'div', { className: `controlsRow` })
-    treatmentRow.style.marginBottom = '1vmin'
+    this.treatmentRow = el(this.div, 'div', { className: `controlsRow` })
+    this.treatmentRow.style.marginBottom = '1vmin'
     range(1, 4).forEach(T => {
-      const treatmentButton = el(treatmentRow, 'button', { textContent: `${T}` })
+      const treatmentButton = el(this.treatmentRow, 'button', { textContent: `${T}` })
       treatmentButton.style.paddingLeft = '1vmin'
       treatmentButton.style.paddingRight = '1vmin'
       treatmentButton.style.marginLeft = '0.5vmin'
       treatmentButton.style.marginRight = '0vmin'
       treatmentButton.addEventListener('click', _ => this.manager.socket.emit('treatment', T))
     })
-    this.treatmentDiv = el(this.div, 'div', { className: 'controlsColumn' })
-    this.treatmentDiv.style.marginBottom = '1vmin'
-    this.treatmentDiv.style.userSelect = 'none'
-    const instructionsButton = el(this.div, 'button', {
-      id: 'instructionsButton',
-      textContent: 'Instructions',
+    this.paramsDiv = el(this.div, 'div', { className: 'controlsColumn' })
+    this.paramsDiv.style.marginBottom = '1vmin'
+    this.paramsDiv.style.userSelect = 'none'
+    this.beginButton = el(this.div, 'button', {
+      id: 'beginButton',
+      textContent: 'Begin',
     })
-    instructionsButton.addEventListener('click', _ => {
-      console.log('begin')
-      this.manager.socket.emit('instructions')
-    })
-    const gameButton = el(this.div, 'button', {
-      id: 'gameButton',
-      textContent: 'Game',
-    })
-    gameButton.addEventListener('click', _ => {
-      console.log('game')
-      this.manager.socket.emit('game')
+    this.beginButton.addEventListener('click', _ => {
+      this.manager.socket.emit('begin')
     })
     this.sessionDiv = el(this.div, 'div', { className: 'controlsColumn' })
     this.sessionDiv.style.marginTop = '1vmin'
@@ -49,15 +42,18 @@ export class Controls {
   }
 
   update(summary: SessionSummary): void {
-    this.treatmentDiv.replaceChildren()
+    const instructions = summary.state === 'instructions'
+    this.treatmentRow.style.visibility = instructions ? 'visible' : 'hidden'
+    this.beginButton.style.visibility = instructions ? 'visible' : 'hidden'
+    this.paramsDiv.replaceChildren()
     const treat = summary.treatment
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `treatment ${treat.id}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `pi: ${treat.pi}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `theta: ${treat.theta}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `lambda: ${treat.lambda}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `RH: ${treat.RH}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `D: ${treat.D}` })
-    el(this.treatmentDiv, 'div', { className: `textBox`, textContent: `RL: ${treat.RL}` })
+    el(this.paramsDiv, 'div', { className: `textBox`, textContent: `treatment ${treat.id}` })
+    el(this.paramsDiv, 'div', { className: `textBox`, textContent: `pi: ${treat.pi}` })
+    el(this.paramsDiv, 'div', { className: `textBox`, textContent: `theta: ${treat.theta}` })
+    el(this.paramsDiv, 'div', { className: `textBox`, textContent: `lambda: ${treat.lambda}` })
+    el(this.paramsDiv, 'div', { className: `textBox`, textContent: `RH: ${treat.RH}` })
+    el(this.paramsDiv, 'div', { className: `textBox`, textContent: `D: ${treat.D}` })
+    el(this.paramsDiv, 'div', { className: `textBox`, textContent: `RL: ${treat.RL}` })
     this.sessionDiv.replaceChildren()
     el(this.sessionDiv, 'div', { className: `textBox`, textContent: `state: ${summary.state}` })
     el(this.sessionDiv, 'div', { className: `textBox`, textContent: `period: ${summary.period} / ${maxPeriod}` })

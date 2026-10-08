@@ -28,6 +28,7 @@ export class Client {
       this.checkToken(summary.token)
       this.decision.update(summary)
       this.complete.update(summary)
+      this.instructions.update(summary)
     })
     this.socket.on('joined', (id: string) => {
       this.id = id

@@ -1,0 +1,17 @@
+Welcome!  Thank you for coming to today’s experiment.  This is an experiment in the economics of decision-making.  Various public agencies have provided funds for this research.  The instructions are simple, and if you follow them carefully and make good decisions, you may earn a considerable amount of money that will be paid to you IN CASH at the end of the session.  Your earnings will be determined partly by your decisions, partly by the decisions of others, and partly by chance.
+
+In today’s experiment you are a creditor who interacts with a group of nine other creditors over a series of periods.  At the outset of each period, you and every other creditor are each given $[D] that has been deposited in a bank investment project.
+
+Prior to each period’s start the bank’s investment project quality is randomly determined to be either High or Low. Each creditor must choose to Hold or Withdraw.The return from holding or withdrawing depends on this investment quality, and in the case the quality is low, the number of creditors who withdraw.
+
+Prior to making any decisions, four randomly selected creditors will be told the investment project quality.
+
+Each period consists of 3 stages. In stages 1 and 2 you can choose to Hold or Withdraw. After each stage, all creditors will be told how many creditors withdrew during the stage. If you did not withdraw in stages 1 or 2, then you will automatically withdraw in stage 3. Your earnings for the period depend on the state and when you withdraw. 
+
+You will remain matched with the same 9 other creditors for [maxPeriod] periods.  At the end of the session, your earnings will be determined as the average of your payoff over all [maxPeriod] periods, plus your $[bonus] appearance bonus.
+
+At the start of each period, you must decide to Withdraw your deposit or Hold it in the investment. The payoff for your decision depends on the investment quality and the number of other creditors who withdraw, as shown in Table 1. 
+
+[Table 1]
+
+

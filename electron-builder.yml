@@ -9,4 +9,5 @@ files:
   - public/**
   - package.json
 win:
-  target: dir
+  target:
+    - dir

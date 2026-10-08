@@ -9,7 +9,7 @@
   "main": "dist/src/electron/main.js",
   "scripts": {
     "app": "npm run build && electron .",
-    "release": "npm run build && electron-builder --win dir",
+    "release": "npm run build && electron-builder --win",
     "build": "node scripts/copy.mjs && tsc -p web --noEmit && node scripts/bundle.mjs && tsc",
     "dev": "npm run build && node dist/src/index.js",
     "start": "node dist/src/index.js",
