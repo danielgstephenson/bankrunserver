@@ -1,10 +1,10 @@
-import { bonus, maxPeriod } from '../shared/parameters.js'
-import type { SessionSummary } from '../shared/summary.js'
-import { el } from './builder.js'
-import type { Client } from './client.js'
-import instructionsText from './instructions.txt'
+import { bonus, maxPeriod } from '../../shared/parameters.js'
+import type { SessionSummary } from '../../shared/summary.js'
+import { el } from '../builder.js'
+import type { Client } from '../client.js'
+import instructionsText from './quiz.txt'
 
-export class Instructions {
+export class Quiz {
   client: Client
   div: HTMLDivElement
   scrollBox: HTMLDivElement
