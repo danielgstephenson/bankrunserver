@@ -33,6 +33,13 @@ export class Game {
     })
   }
 
+  getWithdrawCounts() {
+    const n1 = this.players.filter(p => p.action === 1).length
+    const n2 = this.players.filter(p => p.action === 2).length
+    const n3 = this.players.filter(p => p.action === 3).length
+    return [n1, n2, n3]
+  }
+
   summarize(): GameSummary {
     return {
       id: this.id,

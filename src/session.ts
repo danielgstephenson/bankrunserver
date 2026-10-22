@@ -8,8 +8,8 @@ import { once } from 'node:events'
 import type { SessionSummary } from '../shared/summary.js'
 import { treatment1, treatments } from '../shared/treatment.js'
 import { Game } from './game.js'
-import { gameCount, maxPeriod, participantCount, playerCount } from '../shared/parameters.js'
-import { getPayVec, getWithdrawCounts } from './payoff.js'
+import { gameCount, maxPeriod, maxPracticePeriod, participantCount, playerCount } from '../shared/parameters.js'
+import { getPayVec } from '../shared/payoff.js'
 import { getDateString } from './dateString.js'
 import { DecisionWriter, PaymentWriter, TreatmentWriter } from './writer.js'
 
@@ -26,9 +26,10 @@ export class Session {
   participants = new Map<string, Participant>()
   games: Game[] = []
   state = 'instructions'
+  practice = true
   period = 1
   stage = 1
-  quality = 'low'
+  quality: 'high' | 'low' = 'low'
 
   constructor(dataDir: string) {
     this.dataDir = dataDir
@@ -65,10 +66,25 @@ export class Session {
       socket.on('instructions', _ => {
         this.state = 'instructions'
       })
-      socket.on('begin', _ => {
+      socket.on('beginQuiz', _ => {
+        this.state = 'quiz'
+        this.treatmentWriter.write()
+      })
+      socket.on('beginPractice', _ => {
         this.setupGames()
+        this.practice = true
+        this.state = 'game'
+      })
+      socket.on('beginGame', _ => {
+        this.setupGames()
+        this.practice = false
         this.state = 'game'
         this.treatmentWriter.write()
+      })
+      socket.on('quizComplete', (id: string) => {
+        const participant = this.participants.get(id)
+        if (participant == null) return
+        participant.ready = true
       })
       socket.on('withdraw', (id: string) => {
         const participant = this.participants.get(id)
@@ -91,6 +107,8 @@ export class Session {
 
   setupGames(): void {
     this.setQuality()
+    this.period = 1
+    this.stage = 1
     const participants = shuffle([...this.participants.values()])
     const games = [...this.games.values()]
     for (const game of games) {
@@ -120,8 +138,8 @@ export class Session {
 
   advanceStage(): void {
     this.games.forEach(game => {
-      game.withdrawCounts = getWithdrawCounts(game)
-      game.payVec = getPayVec(game)
+      game.withdrawCounts = game.getWithdrawCounts()
+      game.payVec = getPayVec(this.treatment, this.quality, game.withdrawCounts)
     })
     this.stage += 1
     this.participants.forEach(p => {
@@ -134,10 +152,17 @@ export class Session {
   }
 
   advancePeriod(): void {
-    this.decisionWriter.write()
-    this.savePayoffs()
+    if (!this.practice) {
+      this.decisionWriter.write()
+      this.savePayoffs()
+    }
     this.stage = 1
-    if (this.period >= maxPeriod) {
+    if (this.practice && this.period >= maxPracticePeriod) {
+      this.state = 'practiceComplete'
+      this.stage = 3
+      return
+    }
+    if (!this.practice && this.period >= maxPeriod) {
       this.state = 'complete'
       this.stage = 3
       this.paymentWriter.write()
@@ -165,6 +190,7 @@ export class Session {
       token: this.token,
       state: this.state,
       treatment: this.treatment,
+      practice: this.practice,
       period: this.period,
       stage: this.stage,
       quality: this.quality,

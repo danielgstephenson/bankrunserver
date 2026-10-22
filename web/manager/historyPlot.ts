@@ -27,6 +27,7 @@ export class HistoryPlot {
   }
 
   update(summary: SessionSummary) {
+    if (summary.practice) return
     range(maxPeriod).forEach(i => {
       const display = i + 1 < summary.period ? 'block' : 'none'
       this.informedPoints[i].style.display = display

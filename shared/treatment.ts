@@ -31,11 +31,11 @@ treatment2.theta = 0.5
 export const treatment3 = structuredClone(baseline)
 treatment3.id = 3
 treatment3.pi = 0.1
-treatment3.theta = 0.8
+treatment3.theta = 0.75
 
 export const treatment4 = structuredClone(baseline)
 treatment4.id = 4
 treatment4.pi = 0.4
-treatment4.theta = 0.8
+treatment4.theta = 0.75
 
 export const treatments = [treatment1, treatment2, treatment3, treatment4]

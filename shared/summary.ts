@@ -13,6 +13,7 @@ export interface SessionSummary {
   token: string
   state: string
   treatment: Treatment
+  practice: boolean
   period: number
   stage: number
   quality: string

@@ -2,7 +2,7 @@ import { el } from '../builder.js'
 import { range } from '../../shared/math.js'
 import type { SessionSummary } from '../../shared/summary.js'
 import type { Manager } from './manager.js'
-import { maxPeriod } from '../../shared/parameters.js'
+import { maxPeriod, maxPracticePeriod } from '../../shared/parameters.js'
 
 export class Controls {
   manager: Manager
@@ -10,7 +10,9 @@ export class Controls {
   paramsDiv: HTMLDivElement
   sessionDiv: HTMLDivElement
   treatmentRow: HTMLDivElement
-  beginButton: HTMLButtonElement
+  beginQuizButton: HTMLButtonElement
+  beginPracticeButton: HTMLButtonElement
+  beginGameButton: HTMLButtonElement
 
   constructor(manager: Manager) {
     this.manager = manager
@@ -29,12 +31,26 @@ export class Controls {
     this.paramsDiv = el(this.div, 'div', { className: 'controlsColumn' })
     this.paramsDiv.style.marginBottom = '1vmin'
     this.paramsDiv.style.userSelect = 'none'
-    this.beginButton = el(this.div, 'button', {
-      id: 'beginButton',
-      textContent: 'Begin',
+    this.beginQuizButton = el(this.div, 'button', {
+      id: 'beginQuizButton',
+      textContent: 'Begin Quiz',
     })
-    this.beginButton.addEventListener('click', _ => {
-      this.manager.socket.emit('begin')
+    this.beginQuizButton.addEventListener('click', _ => {
+      this.manager.socket.emit('beginQuiz')
+    })
+    this.beginPracticeButton = el(this.div, 'button', {
+      id: 'beginPracticeButton',
+      textContent: 'Begin Practice',
+    })
+    this.beginPracticeButton.addEventListener('click', _ => {
+      this.manager.socket.emit('beginPractice')
+    })
+    this.beginGameButton = el(this.div, 'button', {
+      id: 'beginGameButton',
+      textContent: 'Begin Game',
+    })
+    this.beginGameButton.addEventListener('click', _ => {
+      this.manager.socket.emit('beginGame')
     })
     this.sessionDiv = el(this.div, 'div', { className: 'controlsColumn' })
     this.sessionDiv.style.marginTop = '1vmin'
@@ -42,9 +58,10 @@ export class Controls {
   }
 
   update(summary: SessionSummary): void {
-    const instructions = summary.state === 'instructions'
-    this.treatmentRow.style.visibility = instructions ? 'visible' : 'hidden'
-    this.beginButton.style.visibility = instructions ? 'visible' : 'hidden'
+    this.treatmentRow.style.visibility = summary.state === 'instructions' ? 'visible' : 'hidden'
+    this.beginQuizButton.style.visibility = summary.state === 'instructions' ? 'visible' : 'hidden'
+    this.beginPracticeButton.style.visibility = summary.state === 'quiz' ? 'visible' : 'hidden'
+    this.beginGameButton.style.visibility = summary.state == 'practiceComplete' ? 'visible' : 'hidden'
     this.paramsDiv.replaceChildren()
     const treat = summary.treatment
     el(this.paramsDiv, 'div', { className: `textBox`, textContent: `treatment ${treat.id}` })
@@ -55,8 +72,10 @@ export class Controls {
     el(this.paramsDiv, 'div', { className: `textBox`, textContent: `D: ${treat.D}` })
     el(this.paramsDiv, 'div', { className: `textBox`, textContent: `RL: ${treat.RL}` })
     this.sessionDiv.replaceChildren()
+    el(this.sessionDiv, 'div', { className: `textBox`, textContent: `practice: ${summary.practice}` })
     el(this.sessionDiv, 'div', { className: `textBox`, textContent: `state: ${summary.state}` })
-    el(this.sessionDiv, 'div', { className: `textBox`, textContent: `period: ${summary.period} / ${maxPeriod}` })
+    const M = summary.practice ? maxPracticePeriod : maxPeriod
+    el(this.sessionDiv, 'div', { className: `textBox`, textContent: `period: ${summary.period} / ${M}` })
     el(this.sessionDiv, 'div', { className: `textBox`, textContent: `stage: ${summary.stage} / 3` })
   }
 }
